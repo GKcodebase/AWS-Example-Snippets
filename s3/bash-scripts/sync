@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+  echo "No bucket name boi!"
+  exit 1
+fi
+BUCKET_NAME=$1
+
+echo "Syncing to bucket $BUCKET_NAME"
+set -e
+
+# Set the target directory as /tmp
+target_dir="/tmp/random_files"
+
+rm -r "$target_dir"
+# Create the target directory if it doesn't exist
+mkdir -p "$target_dir"
+
+# Define the number of files to create (between 5 and 10)
+num_files=$((RANDOM % 6 + 5))  # Random number between 5 and 10
+
+# Create the random files using dd
+for i in $(seq 1 $num_files); do
+  # Generate a random filename
+  filename="$i.txt"
+
+  # Use dd to create a file with random content (1KB)
+  dd if=/dev/urandom of="$target_dir/$filename" bs=1K count=1 status=none
+
+  echo "Created file: $target_dir/$filename"
+done
+
+# Use tree to list the files created in the target directory
+echo -e "\nListing the created files:"
+tree "$target_dir"
+
+aws s3 sync $target_dir  s3://$BUCKET_NAME/files
+

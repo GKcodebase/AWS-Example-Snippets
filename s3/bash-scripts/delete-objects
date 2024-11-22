@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+  echo "No bucket name boi!"
+  exit 1
+fi
+BUCKET_NAME=$1
+
+objects_json=$(aws s3api list-objects-v2 --bucket "$BUCKET_NAME" --query "Contents[].Key" --output json)
+
+# Check if there are any objects to delete
+if [ "$(echo "$objects_json" | jq length)" -eq 0 ]; then
+  echo "No objects found to delete."
+  exit 0
+fi
+
+# Prepare the delete JSON format
+delete_json=$(echo "$objects_json" | jq -c '{Objects: map({Key: .})}')
+
+# Perform the delete operation
+aws s3api delete-objects --bucket "$BUCKET_NAME" --delete "$delete_json"
