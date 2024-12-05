@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: 2010-09-09
+#https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname
+Description: Bucket creation IAC
+Resources:
+  RecordServiceS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    # No need to provide bucketName as default
+    #Properties:
+       #BucketName: new-iac-bicket-245
+       
