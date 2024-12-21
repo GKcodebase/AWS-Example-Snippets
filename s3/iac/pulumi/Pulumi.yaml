@@ -1,0 +1,10 @@
+name: s3-simple-sdk
+description: python pulumi IAC for s3
+runtime:
+  name: python
+  options:
+    toolchain: poetry
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-python
