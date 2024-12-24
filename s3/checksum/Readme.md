@@ -17,9 +17,7 @@ aws s3 mb s3://checksum-example-gk-23
 md5sum myfile.txt
 ```
 
-# e59ff97941044f85df5297e1c302d260  myfile.txt
-
-# Upload file and get etags
+## Upload file and get etags
 
 ```
  aws s3 cp myfile.txt  s3://checksum-example-gk-23
